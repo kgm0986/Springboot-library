@@ -35,6 +35,6 @@ public class AccountApi {
     }
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getUser(@PathVariable int userId) {
-        return ResponseEntity.ok().body(new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "Success",accountService.gerUser(userId)));
+        return ResponseEntity.ok().body(new CMRespDto<>(HttpStatus.OK.value(), "Success",accountService.gerUser(userId)));
     }
 }
