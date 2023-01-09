@@ -5,6 +5,7 @@ import com.korit.library.service.AccountService;
 import com.korit.library.web.dto.CMRespDto;
 import com.korit.library.web.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,10 @@ public class AccountApi {
 
         return ResponseEntity
                 .created(URI.create("/api/account/user/"+user.getUserId()))
-                .body(new CMRespDto<>("Create a new User", user));
+                .body(new CMRespDto<>(HttpStatus.CREATED.value(),"Create a new User", user));
     }
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getUser(@PathVariable int userId) {
-        return ResponseEntity.ok().body(new CMRespDto<>("Success",accountService.gerUser(userId)));
+        return ResponseEntity.ok().body(new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "Success",accountService.gerUser(userId)));
     }
 }
