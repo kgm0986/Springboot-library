@@ -27,9 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.httpBasic().disable();
+        http.httpBasic().disable();//ROLE_ADMIN,MANAGER 시큐리티는 ROLE_가있어야 관한이라고 인식한데 사용할떄 앞에 ROLE_은 떄서 사용한다 자료형같은거
         http.authorizeRequests()
-                .antMatchers("/mypage/**", "/security/**")
+                .antMatchers("/mypage/**", "/security/**")//인증을 거처야하는 요청 로그인 하지 않으면 로그인페이지로 보넴 시큐리티가 보넴 이경우 로그인 성공시 원래 요청을 날렸던곳 원레드려가던곳으로 이동한다4
                 .authenticated()
                 .anyRequest()
                 .permitAll()
@@ -37,7 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/account/login") // 로그인 페이지 get요청
                 .loginProcessingUrl("/account/login") // 로그인 인증 post 요청
-                .defaultSuccessUrl("/index");
+                .failureForwardUrl("/account/login/error") //로그인 실페시 보넬곳
+                .successForwardUrl("/mypage")//로그인 성공시 무조건 마이페이지로 보냄
+                .defaultSuccessUrl("/index");//로그인 성공시 어디로 보넬것인가
 
     }
 }
