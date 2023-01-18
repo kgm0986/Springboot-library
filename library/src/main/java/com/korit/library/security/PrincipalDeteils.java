@@ -1,8 +1,6 @@
 package com.korit.library.security;
 
-import com.korit.library.web.dto.RoleDtlDto;
-import com.korit.library.web.dto.RoleMstDto;
-import com.korit.library.web.dto.UserDto;
+import com.korit.library.entity.UserMst;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +14,7 @@ import java.util.*;
 public class PrincipalDeteils implements UserDetails {
 
     @Getter
-    private final UserDto user;
+    private final UserMst user;
     private Map<String, Object> response;
 
 
@@ -45,8 +43,8 @@ public class PrincipalDeteils implements UserDetails {
           // System.out.println(roleName==role.getAuthority());
         }*/
 
-        user.getRoleDtlDto().forEach(dtl -> {
-            authorities.add(() -> dtl.getRoleMstDto().getRoleName());//위에랑 같음
+        user.getRoleDtl().forEach(dtl -> {
+            authorities.add(() -> dtl.getRoleMst().getRoleName());//위에랑 같음
         });
 
         return authorities;

@@ -2,6 +2,9 @@ package com.korit.library.web.api.admin;
 
 import com.korit.library.aop.annotation.ParamsAspect;
 import com.korit.library.aop.annotation.ValidAspect;
+import com.korit.library.entity.BookImage;
+import com.korit.library.entity.BookMst;
+import com.korit.library.entity.CategoryView;
 import com.korit.library.service.BookService;
 import com.korit.library.web.dto.*;
 import io.swagger.annotations.Api;
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Api(tags = {"관리자 도서관리 API"})
@@ -27,14 +29,14 @@ public class BookApi {
     @ParamsAspect
     @ValidAspect
     @GetMapping("/books")
-    public ResponseEntity<CMRespDto<List<BookMstDto>>> searchBook(@Valid SearchReqDto searchReqDto, BindingResult bindingResult) {
+    public ResponseEntity<CMRespDto<List<BookMst>>> searchBook(@Valid SearchReqDto searchReqDto, BindingResult bindingResult) {
         return ResponseEntity
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", bookService.searchBook(searchReqDto)));
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<CMRespDto<List<CategoryDto>>> getCategories() {
+    public ResponseEntity<CMRespDto<List<CategoryView>>> getCategories() {
         return ResponseEntity
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", bookService.getCategories()));
@@ -88,9 +90,9 @@ public class BookApi {
     @ParamsAspect
     @GetMapping("/book/{bookCode}/images")
     public ResponseEntity<CMRespDto<?>> getIMages(@PathVariable String bookCode) {
-        List<BookImageDto> bookImageDtos = bookService.getBooks(bookCode);
+        List<BookImage> bookImages = bookService.getBooks(bookCode);
         return  ResponseEntity.ok()
-                .body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully",bookImageDtos));
+                .body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully", bookImages));
     }
 
     @ParamsAspect
