@@ -1,5 +1,6 @@
 package com.korit.library.web.advice;
 
+import com.korit.library.exception.CustomLikeException;
 import com.korit.library.exception.CustomRentalException;
 import com.korit.library.exception.CustomValidationException;
 import com.korit.library.web.dto.CMRespDto;
@@ -18,5 +19,9 @@ public class ExceptionAdvice {
     @ExceptionHandler(CustomRentalException.class)
     public ResponseEntity<?> validationError(CustomRentalException e) {
         return ResponseEntity.badRequest().body(new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "Rental Error", e.getErrorMap()));
+    }
+    @ExceptionHandler(CustomLikeException.class)
+    public ResponseEntity<?> LikeError(CustomLikeException e) {
+        return ResponseEntity.badRequest().body(new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "Like Error", e.getErrorMap()));
     }
 }

@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags ={"도서 대여 API"})
 @RestController
@@ -36,4 +33,13 @@ public class RentalApi {
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfuly",null));
     }
+    @PutMapping("/rental/{bookId}")
+    public ResponseEntity<CMRespDto<?>> rentalReturn(@PathVariable int bookId) {
+        rentalService.returnBook(bookId);
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfuly",null));
+    }
+
+
 }
