@@ -6,5 +6,4 @@ import java.awt.print.Book;
 
 public class BookRespDto {
     private BookMst bookMst;
-    private boolean
 }

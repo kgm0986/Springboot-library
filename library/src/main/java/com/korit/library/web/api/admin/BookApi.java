@@ -21,6 +21,7 @@ import java.util.List;
 @Api(tags = {"관리자 도서관리 API"})
 @RequestMapping("/api/admin")
 @RestController
+//@CrossOrigin(origins = "http://127.0.0.1:5500")//크로스  오리진 허가되지 않은 서버에서 요청을 날린경우 막아버리서 지정한 서버를 풀어주는것
 public class BookApi {
 
     @Autowired
@@ -78,6 +79,7 @@ public class BookApi {
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully", true));
     }
+    
     @ParamsAspect
     @PostMapping("/book/{bookCode}/images")
     public ResponseEntity<CMRespDto<?>> registerBookImg(@PathVariable String bookCode ,@RequestPart List<MultipartFile> files) {//list로 걸어서 여러개 받기가능
