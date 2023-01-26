@@ -42,6 +42,12 @@ public class BookApi {
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", bookService.getCategories()));
     }
+    @GetMapping("/books/totalcount")
+    public ResponseEntity<CMRespDto<?>> getBookTotalCount(SearchNumberListReqDto searchNumberListReqDto) {
+        return ResponseEntity
+                .ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfully", bookService.getBookTotalCount(searchNumberListReqDto)));
+    }
 
     @ParamsAspect
     @ValidAspect
