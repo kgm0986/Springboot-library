@@ -7,6 +7,7 @@ import com.korit.library.web.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.ListIterator;
 
 @Mapper
 public interface BookRepository {
@@ -37,7 +38,8 @@ public interface BookRepository {
 
     public int maintainUpdateBookByBookCode(BookReqDto bookReqDto);
 
-    public int deletBook(String bookCode);
+    public int deleteBook(String bookCode);
+    public int deleteBooks(List<Integer> userIds);
 
     public int registerBookImages(List<BookImage> bookImages);
     public List<BookImage> findBookImageAll(String bookCode);
