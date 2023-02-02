@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = {"관리자 도서관리 API"})
 @RequestMapping("/api/admin")
@@ -26,6 +28,14 @@ public class BookApi {
 
     @Autowired
     private BookService bookService;
+
+    @GetMapping("/book/{bookCode}")
+    public ResponseEntity<CMRespDto<Map<String, Object>>> getBook(@PathVariable String bookCode) {
+        Map<String, Object> responseMap = new HashMap<>();
+        return ResponseEntity
+                .ok()
+                .body(new  CMRespDto<>(HttpStatus.OK.value(),"Successfully",bookService.getBookAndImage(bookCode)));
+    }
 
     @ParamsAspect
     @ValidAspect
@@ -102,7 +112,14 @@ public class BookApi {
         return ResponseEntity.ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully",true));
     }
-
+    @ParamsAspect
+    @PostMapping("/book/{bookCode}/images/modification")
+    public ResponseEntity<CMRespDto<?>> modifyBookImg(@PathVariable String bookCode ,@RequestPart List<MultipartFile> files) {//list로 걸어서 여러개 받기가능
+        bookService.registerBookImages(bookCode,files);
+        //System.out.println(file.getOriginalFilename());//파일의 실제이름 출력
+        return ResponseEntity.ok()
+                .body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully",true));
+    }
     @ParamsAspect
     @GetMapping("/book/{bookCode}/images")
     public ResponseEntity<CMRespDto<?>> getIMages(@PathVariable String bookCode) {
@@ -110,6 +127,7 @@ public class BookApi {
         return  ResponseEntity.ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully", bookImages));
     }
+
 
     @ParamsAspect
     @DeleteMapping("/books/{bookCode}/images/{imageId}")

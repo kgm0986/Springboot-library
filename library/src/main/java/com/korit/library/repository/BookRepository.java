@@ -43,7 +43,8 @@ public interface BookRepository {
 
     public int registerBookImages(List<BookImage> bookImages);
     public List<BookImage> findBookImageAll(String bookCode);
-
     public BookImage findBookImageByImageId(int imageId);
+
+    public BookImage findBookImageByBookCode(String bookCode);
     public int deleteBookImage(int imageId);
 }
