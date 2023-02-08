@@ -25,7 +25,7 @@ public class AccountApi {
     @Autowired
     private AccountService accountService;
 
-    @ApiOperation(value = "회원가입",notes = "뢰원가입 요청 메소드")//http://localhost:8000/swagger-ui/#/Account%20Rest%20API%20Controller
+    @ApiOperation(value = "회원가입",notes = "회원가입 요청 메소드")//http://localhost:8000/swagger-ui/#/Account%20Rest%20API%20Controller
 
     @ValidAspect
     @PostMapping("/register")
@@ -59,9 +59,11 @@ public class AccountApi {
     @ApiOperation(value = "Get Principal",notes = "로그인된 사용자 정보 가져오기")
     @GetMapping("/principal")
     public ResponseEntity<CMRespDto<? extends PrincipalDeteils>> getPrincipalDeteils(@ApiParam(name = "PrincipalDeteils",hidden = true) @AuthenticationPrincipal PrincipalDeteils principalDeteils) {
-        principalDeteils.getAuthorities().forEach(role -> {
-            log.info("로그인된 사용자의 권한 :{}",role.getAuthority());
-        });
+        if (principalDeteils != null) {
+            principalDeteils.getAuthorities().forEach(role -> {
+                log.info("로그인된 사용자의 권한 :{}",role.getAuthority());
+            });
+        }
         return ResponseEntity
                 .ok()
                 .body(new CMRespDto<>(HttpStatus.OK.value(), "Success",principalDeteils));

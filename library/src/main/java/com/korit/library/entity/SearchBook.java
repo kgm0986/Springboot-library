@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.AssertTrue;
 import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,4 +22,6 @@ public class SearchBook {
     private int rentalDtlId;
     private LocalDate returnDate;
     private int userId;
+    private int likeId;
+    private int likeCount;
 }

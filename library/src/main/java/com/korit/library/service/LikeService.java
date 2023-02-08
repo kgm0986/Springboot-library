@@ -12,29 +12,39 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class LikeService {
+
     private final LikeRepository likeRepository;
-    public void like(int bookId, int userId) {
+
+    public int like(int bookId, int userId) {
         BookLike bookLike = BookLike.builder()
                 .bookId(bookId)
                 .userId(userId)
                 .build();
+
         if(likeRepository.getLikeStatus(bookLike) > 0) {
-            Map<String,String> errorMap = new HashMap<>();
-            errorMap.put("likeError","좋아요를 취소해 주세요");
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("likeError", "좋아요를 취소해 주세요.");
             throw new CustomLikeException(errorMap);
         }
+
         likeRepository.addLike(bookLike);
+        return likeRepository.getLikeCount(bookId);
     }
-    public void dislike(int bookId, int userId) {
+
+    public int dislike(int bookId, int userId) {
         BookLike bookLike = BookLike.builder()
                 .bookId(bookId)
                 .userId(userId)
                 .build();
+
         if(likeRepository.getLikeStatus(bookLike) == 0) {
-            Map<String,String> errorMap = new HashMap<>();
-            errorMap.put("likeError","좋아요를 눌러주세요");
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("likeError", "좋아요를 눌러주세요.");
             throw new CustomLikeException(errorMap);
         }
+
         likeRepository.deleteLike(bookLike);
+        return likeRepository.getLikeCount(bookId);
     }
+
 }

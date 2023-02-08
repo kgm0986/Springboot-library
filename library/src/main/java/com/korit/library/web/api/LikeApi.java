@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.*;
 public class LikeApi {
     private final LikeService likeService;
     @PostMapping("/book/{bookId}/like")
-    public ResponseEntity<CMRespDto<Boolean>>  like(@PathVariable int bookId,
+    public ResponseEntity<CMRespDto<Integer>>  like(@PathVariable int bookId,
                                                     @AuthenticationPrincipal PrincipalDeteils principalDeteils) {
-        likeService.like(bookId, principalDeteils.getUser().getUserId());
+        int likeCount = likeService.like(bookId, principalDeteils.getUser().getUserId());
 
-        return ResponseEntity.ok().body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully",true));
+        return ResponseEntity.ok().body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully",likeCount));
 
     }
 
     @DeleteMapping ("/book/{bookId}/like")
-    public ResponseEntity<CMRespDto<Boolean>>  dislike(@PathVariable int bookId,
+    public ResponseEntity<CMRespDto<Integer>>  dislike(@PathVariable int bookId,
                                                     @AuthenticationPrincipal PrincipalDeteils principalDeteils) {
-        likeService.dislike(bookId, principalDeteils.getUser().getUserId());
-        return ResponseEntity.ok().body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully",true));
+        int likeCount = likeService.dislike(bookId, principalDeteils.getUser().getUserId());
+        return ResponseEntity.ok().body(new CMRespDto<>(HttpStatus.OK.value(),"Successfully",likeCount));
 
     }
 

@@ -1,7 +1,4 @@
 
-
-
-
 .main-container {
     display: flex;
     flex-direction: column;
@@ -11,19 +8,19 @@
     
 }
 
-.main-tatle-container {
+.main-title-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.main-tatle-container span {
+.main-title-container span {
     color: #121212;
     font-size: 40px;
 }
 
-.main-tatle-container h1 {
+.main-title-container h1 {
     margin-top: 10px;
 
     color: #121212;
