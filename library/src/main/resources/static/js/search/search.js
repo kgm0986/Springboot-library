@@ -91,6 +91,40 @@ class SearchApi {
 
         return responseData;
     }
+    setLike(bookId){
+        let likeCount = 0;
+        $.ajax({
+            async: false,
+            type:"post",
+            url:`http://127.0.0.1:8000/api/book/${bookId}/like`,
+            dataType: "json",
+            success: response => {
+                likeCount = response.data;
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
+        return likeCount;
+
+    }
+    setDisLike(bookId){
+        let likeCount = 0;
+        $.ajax({
+            async: false,
+            type:"delete",
+            url:`http://127.0.0.1:8000/api/book/${bookId}/like`,
+            dataType: "json",
+            success: response => {
+                likeCount = response.data;
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
+        return likeCount;
+
+    }
 }
 
 class SearchService {
@@ -164,6 +198,7 @@ class SearchService {
                     </div>
                     
                     <div class="book-info">
+                        <input type="hidden" class="book-id" value="${data.bookId}">
                         <div class="book-code">${data.bookCode}</div>
                         <h3 class="book-name">${data.bookName}</h2>
                         <div class="info-text book-author"><b>저자: </b>${data.author}</div>
@@ -194,26 +229,28 @@ class SearchService {
             }else {
                 if(data.rentalDtlId != 0 && data.returnDate == null && data.userId != principal.user.userId){
                     bookButtons[bookButtonsLength + index].innerHTML = `
-                        <button type="button" class="rental-button" disabled>대여중</button>
+                        <button type="button" class="rental-buttons rental-button" disabled>대여중</button>
                     `;
                 }else if(data.rentalDtlId != 0 && data.returnDate == null && data.userId == principal.user.userId) {
                     bookButtons[bookButtonsLength + index].innerHTML = `
-                        <button type="button" class="return-button">반납하기</button>
+                        <button type="button" class="rental-buttons return-button">반납하기</button>
                     `;
                 }else {
                     bookButtons[bookButtonsLength + index].innerHTML = `
-                        <button type="button" class="rental-button">대여하기</button>
+                        <button type="button" class="rental-buttons rental-button">대여하기</button>
                     `;
                 }
                 if(data.likeId != 0){
                     bookButtons[bookButtonsLength + index].innerHTML += `
-                        <button type="button" class="dislike-button">추천취소</button>
+                        <button type="button" class="like-buttons  dislike-button">추천취소</button>
                     `;
                 }else {
                     bookButtons[bookButtonsLength + index].innerHTML += `
-                        <button type="button" class="like-button">추천</button>
+                        <button type="button" class="like-buttons like-button">추천</button>
                     `;
                 }
+
+                ComponentEvent.getInstance().addClickEventLikeButtons();
             }
         })
     }
@@ -278,4 +315,30 @@ class ComponentEvent {
         }
         
     }
+    addClickEventLikeButtons() {
+        const likeButtons = document.querySelectorAll(".like-buttons")
+        const bookIds = document.querySelectorAll(".book-id");
+        const likeCounts = document.querySelectorAll(".like-count");
+        likeButtons.forEach((button,index) => {
+            button.onclick = () => {
+                if(button.classList.contains("like-button")) {
+                    const likeCount = SearchApi.getInstance().setLike(bookIds[index].value);
+                    likeCounts[index].textContent = likeCount;
+                    button.classList.remove("like-button");
+                    button.classList.add("dislike-button");
+                    button.textContent = "추천취소";
+
+                }else{
+                    const likeCount = SearchApi.getInstance().setDisLike(bookIds[index].value);
+                    likeCounts[index].textContent = likeCount;
+                    button.classList.remove("dislike-button");
+                    button.classList.add("like-button");
+                    button.textContent = "추천";
+
+                }
+            }
+        });
+
+    }
+    
 }
