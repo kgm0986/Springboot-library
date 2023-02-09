@@ -31,14 +31,14 @@ public class RentalApi {
         rentalService.rentalOne(principalDeteils.getUser().getUserId(), bookId);
         return ResponseEntity
                 .ok()
-                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfuly",null));
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfuly",true));
     }
     @PutMapping("/rental/{bookId}")
     public ResponseEntity<CMRespDto<?>> rentalReturn(@PathVariable int bookId) {
         rentalService.returnBook(bookId);
         return ResponseEntity
                 .ok()
-                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfuly",null));
+                .body(new CMRespDto<>(HttpStatus.OK.value(), "Successfuly",true));
     }
 
 
