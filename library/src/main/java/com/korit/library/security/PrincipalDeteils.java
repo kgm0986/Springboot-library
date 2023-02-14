@@ -6,20 +6,20 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.*;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class PrincipalDeteils implements UserDetails {
+public class PrincipalDeteils implements UserDetails, OAuth2User {
 
     @Getter
     private final UserMst user;
     private Map<String, Object> response;
 
 
-
-//권한을 리스트로 관리하는 부분
+    //권한을 리스트로 관리하는 부분
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
@@ -90,5 +90,15 @@ public class PrincipalDeteils implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
     }
 }
