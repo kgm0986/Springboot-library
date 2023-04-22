@@ -156,7 +156,7 @@ class SearchApi {
         $.ajax({
             async: false,
             type: "put",
-            url: `http://localhost:8000/api/rental/${bookId}`,
+            url: `/api/rental/${bookId}`,//절대경로
             dataType: "json",
             success: response => {
                 responseData = response.data;
